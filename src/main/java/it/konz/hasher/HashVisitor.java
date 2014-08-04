@@ -60,18 +60,7 @@ class HashVisitor implements FileVisitor<Path> {
         Map<String, HashEntry> hashEntries = new HashMap<>();
 
         if (hashFile.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(hashFilePath.toFile()))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    try {
-                        HashEntry entry = HashEntry.fromString(line);
-                        hashEntries.put(entry.getName(), entry);
-                    } catch (Exception e) {
-                        logger.warning("Error parsing line from file " + hashFilePath + ": " + e);
-                        otherErrors++;
-                    }
-                }
-            }
+            otherErrors += HashEntry.parseHashesFile(hashFilePath, hashEntries);
         } else {
             if (scanner.isVerify()) {
                 logger.info("Unhashed directory: " + dir.toString());

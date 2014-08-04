@@ -40,6 +40,9 @@ public class CommandLine {
     @Parameter(names = {"--verify", "-v"}, description = "Verify hashes")
     private boolean verify = false;
 
+    @Parameter(names = {"--compare", "-c"}, description = "Compare the hash files in two or more directories")
+    private boolean compare = false;
+
     @Parameter(names = {"--help", "-h"}, description = "Show help", help = true)
     private boolean help = false;
 
@@ -62,6 +65,10 @@ public class CommandLine {
 
     public boolean isVerify() {
         return verify;
+    }
+
+    public boolean isCompare() {
+        return compare;
     }
 
     public boolean isHelp() {
@@ -102,14 +109,20 @@ public class CommandLine {
             System.exit(Hasher.STATUS_OK);
         }
 
-        if (!(commandLine.isUpdate() || !commandLine.isVerify())) {
-            System.out.println("Use either --update or --verify\n");
+        if (!(commandLine.isUpdate() || !commandLine.isVerify() || !commandLine.isCompare())) {
+            System.out.println("Use --update, --verify or --compare\n");
             jc.usage();
             System.exit(Hasher.STATUS_COMMAND_LINE_ERROR);
         }
 
-        if (commandLine.getDirectories().isEmpty()) {
+        if (!commandLine.isCompare() && commandLine.getDirectories().isEmpty()) {
             System.out.println("List at least one directory to scan.\n");
+            jc.usage();
+            System.exit(Hasher.STATUS_COMMAND_LINE_ERROR);
+        }
+
+        if (commandLine.isCompare() && commandLine.getDirectories().size() < 2) {
+            System.out.println("List at least two directories to compare.\n");
             jc.usage();
             System.exit(Hasher.STATUS_COMMAND_LINE_ERROR);
         }

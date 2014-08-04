@@ -18,11 +18,15 @@
 
 package it.konz.hasher;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collection;
+import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Represents a line in the hashes file.
@@ -34,6 +38,7 @@ public class HashEntry implements Comparable<HashEntry> {
      */
     public static final String DELIMITER = "|";
 
+    private static final Logger logger = Logger.getLogger(HashEntry.class.getName());
     private static final String DELIMITER_REGEX = "\\|";
 
     private static final Base64.Encoder base64encoder = Base64.getEncoder();
@@ -48,12 +53,39 @@ public class HashEntry implements Comparable<HashEntry> {
     private boolean stillExists = true;
 
     /**
+     * Parses a hashes file and adds it's entries to the provided map.
+     *
+     * @param hashFilePath the path of the hashes file
+     * @param hashEntries the map of hash entries to add to
+     * @return the number of errors that occurred
+     * @throws IOException if the hashes file cannot be read
+     */
+    public static long parseHashesFile(Path hashFilePath, Map<String, HashEntry> hashEntries) throws IOException {
+        long errorCount = 0L;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(hashFilePath.toFile()))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                try {
+                    HashEntry entry = fromString(line);
+                    hashEntries.put(entry.getName(), entry);
+                } catch (Exception e) {
+                    logger.warning("Error parsing line from file " + hashFilePath + ": " + e);
+                    errorCount++;
+                }
+            }
+        }
+
+        return errorCount;
+    }
+
+    /**
      * Create a HashEntry instance from a line in the hashes file.
      *
      * @param line the line
      * @return the new HashEntry instance
      */
-    public static HashEntry fromString(String line) {
+    private static HashEntry fromString(String line) {
         String[] parts = line.split(DELIMITER_REGEX);
         if (parts.length != 5) {
             throw new IllegalArgumentException(String.format("Incorrect hash entry format: %s", line));
