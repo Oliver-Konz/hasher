@@ -19,6 +19,7 @@
 package it.konz.hasher;
 
 import java.time.Duration;
+import java.time.temporal.TemporalUnit;
 
 /**
  * The statistics of the performed operation.
@@ -66,8 +67,15 @@ public class Stats {
         return otherErrors;
     }
 
-    public long getRate() {
-        return !runtime.equals(Duration.ZERO) ? bytesHashed / runtime.getSeconds() : 0L;
+    public double getRate() {
+        if (runtime.equals(Duration.ZERO)) {
+            return 0.0d;
+        }
+        if (runtime.getSeconds() < 1000) {
+            long nanoTime = runtime.getSeconds() * 1000000000 + runtime.getNano();
+            return bytesHashed * 1000000000.0d / nanoTime;
+        }
+        return bytesHashed * 1.0d / runtime.getSeconds();
     }
 
     @Override
@@ -76,7 +84,7 @@ public class Stats {
         sb.append("Files hashed:        ").append(filesHashed).append('\n');
         sb.append("Verification errors: ").append(verificationErrors).append('\n');
         sb.append("Other errors:        ").append(otherErrors).append('\n');
-        sb.append("Size of files (MiB): ").append(bytesHashed / MI).append('\n');
+        sb.append("Size of files (MiB): ").append(bytesHashed * 1.0d / MI).append('\n');
         sb.append("Runtime:             ").append(runtime.toString()).append('\n');
         sb.append("Rate (MiB/s):        ").append(getRate() / MI).append('\n');
         return sb.toString();
