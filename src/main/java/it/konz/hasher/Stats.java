@@ -33,6 +33,8 @@ public class Stats {
     public static final long GI = MI * KI;
     public static final long TI = GI * KI;
 
+    private static final double BILLION = 1000000000.0d;
+
     private final Duration runtime;
     private final long bytesHashed;
     private final long filesHashed;
@@ -71,11 +73,8 @@ public class Stats {
         if (runtime.equals(Duration.ZERO)) {
             return 0.0d;
         }
-        if (runtime.getSeconds() < 1000) {
-            long nanoTime = runtime.getSeconds() * 1000000000 + runtime.getNano();
-            return bytesHashed * 1000000000.0d / nanoTime;
-        }
-        return bytesHashed * 1.0d / runtime.getSeconds();
+        double preciseTime = (runtime.getSeconds() * BILLION + runtime.getNano()) / BILLION;
+        return bytesHashed / preciseTime;
     }
 
     @Override
