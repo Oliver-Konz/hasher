@@ -23,11 +23,11 @@
     <artifactId>hasher</artifactId>
     <description>Hashes and verifies entire directory trees.</description>
     <groupId>it.konz</groupId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <scm>
         <developerConnection>scm:git:https://github.com/Oliver-Konz/hasher</developerConnection>
-      <tag>v1.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <properties>
