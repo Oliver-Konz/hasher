@@ -16,7 +16,7 @@
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-JAR_NAME=hasher-1.0.1-jar-with-dependencies.jar
+JAR_NAME=hasher-1.1-SNAPSHOT-jar-with-dependencies.jar
 JAR_DIR=/usr/local/share/hasher
 BIN_DIR=/usr/local/bin
 
