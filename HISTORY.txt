@@ -1,0 +1,10 @@
+Hasher - Hashes and verifies entire directory trees.
+Copyright (C) 2014  Oliver Konz <code@oliverkonz.de>
+
+Version 1.0.1 (2014-08-04)
+------------------------
+* Corrected jar file name in launch script.
+
+Version 1.0 (2014-08-04)
+------------------------
+* Initial release.

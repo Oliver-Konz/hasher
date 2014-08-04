@@ -16,7 +16,7 @@
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-JAR_NAME=hasher-1.0-SNAPSHOT-jar-with-dependencies.jar
+JAR_NAME=hasher-1.1-SNAPSHOT-jar-with-dependencies.jar
 JAR_DIR=/usr/local/share/hasher
 BIN_DIR=/usr/local/bin
 
@@ -24,8 +24,8 @@ JAR=$JAR_DIR/$JAR_NAME
 BIN=$BIN_DIR/hasher
 
 mkdir -p $JAR_DIR
-cp $JAR_NAME README.txt gpl-3.0.txt $JAR_DIR
+cp target/$JAR_NAME README.txt HISTORY.txt LICENSE.md $JAR_DIR
 
 echo "#!/bin/sh" > $BIN
-echo "java -jar "$JAR >> $BIN
+echo "java -jar" $JAR '"$@"' >> $BIN
 chmod 775 $BIN
