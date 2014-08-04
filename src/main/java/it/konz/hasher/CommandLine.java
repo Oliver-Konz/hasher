@@ -108,6 +108,12 @@ public class CommandLine {
             System.exit(Hasher.STATUS_COMMAND_LINE_ERROR);
         }
 
+        if (commandLine.getDirectories().isEmpty()) {
+            System.out.println("List at least one directory to scan.\n");
+            jc.usage();
+            System.exit(Hasher.STATUS_COMMAND_LINE_ERROR);
+        }
+
         return commandLine;
     }
 
