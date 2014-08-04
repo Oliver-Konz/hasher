@@ -24,8 +24,8 @@ JAR=$JAR_DIR/$JAR_NAME
 BIN=$BIN_DIR/hasher
 
 mkdir -p $JAR_DIR
-cp $JAR_NAME README.txt gpl-3.0.txt $JAR_DIR
+cp target/$JAR_NAME README.txt HISTORY.txt LICENSE.md $JAR_DIR
 
 echo "#!/bin/sh" > $BIN
-echo "java -jar "$JAR >> $BIN
+echo "java -jar" $JAR '"$@"' >> $BIN
 chmod 775 $BIN
