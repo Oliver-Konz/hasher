@@ -66,8 +66,8 @@ public class Hasher {
         }
 
         Stats stats = hasher.run();
-        System.err.println(stats.toString());
         System.err.println();
+        System.err.println(stats.toString());
 
         if (stats.getVerificationErrors() != 0) {
             System.err.println("There were verification errors. See log for details.");

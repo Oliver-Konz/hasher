@@ -19,7 +19,6 @@
 package it.konz.hasher;
 
 import java.time.Duration;
-import java.time.temporal.TemporalUnit;
 
 /**
  * The statistics of the performed operation.
