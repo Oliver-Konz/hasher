@@ -1,4 +1,4 @@
-Hasher 1.0 - Hashes and verifies entire directory trees.
+Hasher 1.0.1 - Hashes and verifies entire directory trees.
 Copyright (C) 2014  Oliver Konz <code@oliverkonz.de>
 
 Hashes the files in the given directories and puts the hash sums in the file '.hashes' in each subdirectory.
