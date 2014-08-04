@@ -19,7 +19,6 @@
 package it.konz.hasher;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

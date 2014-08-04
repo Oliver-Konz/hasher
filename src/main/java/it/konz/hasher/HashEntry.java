@@ -194,7 +194,7 @@ public class HashEntry implements Comparable<HashEntry> {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof HashEntry)) return false;
 
@@ -220,7 +220,7 @@ public class HashEntry implements Comparable<HashEntry> {
     }
 
     @Override
-    public int compareTo(final HashEntry o) {
+    public int compareTo(HashEntry o) {
         return name.compareTo(o.name);
     }
 }
