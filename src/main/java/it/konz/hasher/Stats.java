@@ -27,6 +27,11 @@ public class Stats {
 
     public static Stats EMPTY = new Stats(Duration.ZERO, 0L, 0L, 0L, 0L);
 
+    public static final long KI = 1024L;
+    public static final long MI = KI * KI;
+    public static final long GI = MI * KI;
+    public static final long TI = GI * KI;
+
     private final Duration runtime;
     private final long bytesHashed;
     private final long filesHashed;
@@ -71,9 +76,9 @@ public class Stats {
         sb.append("Files hashed:        ").append(filesHashed).append('\n');
         sb.append("Verification errors: ").append(verificationErrors).append('\n');
         sb.append("Other errors:        ").append(otherErrors).append('\n');
-        sb.append("Size of files (MiB): ").append(bytesHashed / 1048576L).append('\n');
+        sb.append("Size of files (MiB): ").append(bytesHashed / MI).append('\n');
         sb.append("Runtime:             ").append(runtime.toString()).append('\n');
-        sb.append("Rate (MiB/s):        ").append(getRate() / 1048576L).append('\n');
+        sb.append("Rate (MiB/s):        ").append(getRate() / MI).append('\n');
         return sb.toString();
     }
 
