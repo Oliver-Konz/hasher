@@ -27,8 +27,8 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/Oliver-Konz/hasher</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
