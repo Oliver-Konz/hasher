@@ -60,7 +60,12 @@ class HashVisitor implements FileVisitor<Path> {
         Map<String, HashEntry> hashEntries = new HashMap<>();
 
         if (hashFile.exists()) {
-            otherErrors += HashEntry.parseHashesFile(hashFilePath, hashEntries);
+            try {
+                otherErrors += HashEntry.parseHashesFile(hashFilePath, hashEntries);
+            } catch(IOException e) {
+                otherErrors++;
+                logger.warning("Could not read hash file: " + hashFile + ": " + e);
+            }
         } else {
             if (scanner.isVerify()) {
                 logger.info("Unhashed directory: " + dir.toString());
@@ -109,10 +114,25 @@ class HashVisitor implements FileVisitor<Path> {
         Optional<HashEntry> entry = Optional.ofNullable(hashEntries.get(name));
 
         // Verify
-        boolean verified = scanner.isVerify() && verify(entry, file, attrs);
+        boolean verified = false;
+        if (scanner.isVerify()) {
+            try {
+                verified = verify(entry, file, attrs);
+            } catch(IOException e) {
+                logger.severe("Could read file: " + file.toString() + ": " + e.toString());
+                return FileVisitResult.CONTINUE;
+            }
+        }
 
         // Update
-        if (scanner.isUpdate()) hashEntries.put(name, update(file, attrs, entry, verified));
+        if (scanner.isUpdate()) {
+            try {
+                hashEntries.put(name, update(file, attrs, entry, verified));
+            } catch(IOException e) {
+                logger.severe("Could read file: " + file.toString() + ": " + e.toString());
+                return FileVisitResult.CONTINUE;
+            }
+        }
 
         return FileVisitResult.CONTINUE;
     }
