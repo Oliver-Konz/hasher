@@ -199,10 +199,14 @@ class HashVisitor implements FileVisitor<Path> {
         } else {
             updatedEntry = entry.get();
             updatedEntry.setStillExists();
-            // If the hash was verified we do not need to compute a new one
-            if (!verified) {
-                updatedEntry.update(time, size, scanner.getAlgorithm(), doHash(file, scanner.getAlgorithm(), attrs).get());
-                if (logger.isLoggable(Level.FINE)) logger.fine("Hashed: " + file.toString());
+
+            // Only compute a new hash if the modification date or the file size has changed
+            if (!time.equals(updatedEntry.getTime()) || size != updatedEntry.getSize()) {
+                // If the hash was verified we do not need to compute a new one
+                if (!verified) {
+                    updatedEntry.update(time, size, scanner.getAlgorithm(), doHash(file, scanner.getAlgorithm(), attrs).get());
+                    if (logger.isLoggable(Level.FINE)) logger.fine("Hashed: " + file.toString());
+                }
             }
         }
 
